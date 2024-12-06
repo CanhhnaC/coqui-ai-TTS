@@ -15,7 +15,7 @@ from spacy.lang.zh import Chinese
 from tokenizers import Tokenizer
 
 from TTS.tts.layers.xtts.zh_num2words import TextNorm as zh_num2words
-from TTS.tts.utils.text.cleaners import collapse_whitespace, lowercase
+from TTS.tts.utils.text.cleaners import basic_cleaners, collapse_whitespace, lowercase
 
 logger = logging.getLogger(__name__)
 
@@ -629,6 +629,7 @@ class VoiceBpeTokenizer:
             "hu": 224,
             "ko": 95,
             "hi": 150,
+            "vi": 250,
         }
 
     @cached_property
@@ -656,6 +657,8 @@ class VoiceBpeTokenizer:
                 txt = korean_transliterate(txt)
         elif lang == "ja":
             txt = japanese_cleaners(txt, self.katsu)
+        elif lang == "vi":
+            txt = basic_cleaners()
         else:
             raise NotImplementedError(f"Language '{lang}' is not supported.")
         return txt
